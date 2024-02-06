@@ -1,0 +1,86 @@
+---
+title: "Activity#2"
+author: "Aira Mia Lego BSIT 2B"
+date: "`February 06, 2024"
+output: pdf_document
+---
+
+```{r}
+library(rvest)
+library(httr)
+library(dplyr)
+library(polite)
+
+polite::use_manners(save_as = 'polite_scrape.R')
+
+links <- c(
+  "https://www.imdb.com/title/tt0057012/reviews/?ref_=tt_ov_rt",
+  "g4w6ddbmqyzdo6ic4oxwjnzqrhrmsaz42ipdb7pja3epyvl5pjt6uccso43f7pzmb4d2o6cyh6hclatpgd32tcxrj2fea",
+  "g4w6ddbmqyzdo6ic4oxwjnbrr3tm2azy3ynd54hfalapgvd5pjt6ud2souyfrmzdb4dwcfbjkibf34rq6z3fg67ugfj3c",
+  "g4w6ddbmqyzdo6ic4oxwjnjuqls4sars3qpdd4hiahcpqtttfjrkqbc4oa3fjpryobdscp5kckyn5e5ihsx4gtiql7ca",
+  "g4w6ddbmqyzdo6ic4oxwjnjsrxrmsbz43mmt37hmapap6ud5pjt6udc3oqzfxmjlb4dsigvv4rir674evvdz4d6tlqrao",
+  "g4w6ddbmqyzdo6ic4oxwjnjqrdt42ar23mmdd4pnb7e76ul5pjt6udsyoy4fznzdb4d65gqgt36gait46ztd6ffg7ncg4",
+  "g4w6ddbmqyzdo6ic4oxwjmryr7tmsab23iptt4hlatapqul5pjt6ud2zom3fzpzjb4d32yqf6mzivin2roqqsusx3g27i",
+  "g4w6ddbmqyzdo6ic4oxwjmrzrtu4ocj73umdd6hiahepyvl5pjt6udk3payf7nbib4dyam3l5szpdzyblnbzuw7facblm",
+  "g4w6ddbmqyzdo6ic4oxwjmrwrxt4sbz334ot77peaxb7stttfjrkwdc6oy4f3mjyoabt6oysil6dt5osvcsx3lrqsxuq",
+  "g4w6ddbmqyzdo6ic4oxwjmrxrts42br23updb4pjb7b72vd5pjt6ud26ou3vvnbob4dzhbxigq5ouzclwwoy5bllvdp7o",
+  "g4w6ddbmqyzdo6ic4oxwjmrurtumwbz33qodz67pb7bpeul5pjt6uds3omyv5mzlb4d7lq764pqlyx2hwuvisdslqyowa",
+  "g4w6ddbmqyzdo6ic4oxwjmrurlq44cj43qpdx6peb7a7wvd5pjt6udk3payftnjlb4du4oreojltflzxgojpqy62lu65y",
+  "g4w6ddbmqyzdo6ic4oxwjmrsqpum4aby3ykdr6ppb3apgu3eoq366sszoizfjnzpd54k4wpliz6nujgplz635liwvhd3kvy",
+  "g4w6ddbmqyzdo6ic4oxwjmrsrdsm4az32ipdv7hfb3a7qudhoq366ssyoe3vjprcdf4k4xow3fig3fqwpaeomq2nheprwfi"
+)
+
+i<-2
+for (i in 1:13) {
+  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt0057012/reviews/?ref_=undefined&paginationKey=", links[i])
+  
+  session <- bow(url, user_agent = "Educational")
+  
+  username <- scrape(session) %>%
+    html_nodes('span.display-name-link') %>% 
+    html_text()
+  username
+  
+  dates <- scrape(session) %>%
+    html_nodes('span.review-date') %>% 
+    html_text()
+  dates
+  
+  title <- scrape(session) %>%
+    html_nodes('a.title') %>% 
+    html_text()
+  title
+  
+  content<- scrape(session) %>%
+    html_nodes('div.text.show-more__control') %>% 
+    html_text()
+  content
+  
+  ratings <- scrape(session) %>%
+    html_nodes('span.rating-other-user-rating') %>% 
+    html_text()
+  ratings
+  
+
+  if(i==1){
+    Username<- username
+    Date <- dates
+    Rate<- ratings
+    Review_Title<-title
+    Review_Content<- content
+  }
+  else{
+    Username <- c(Username, username)
+    Date <- c(Date, dates)
+    Rate <- c(Rate, ratings)
+    Review_Title<-c(Review_Title,title)
+    Review_Content<-c(Review_Content,content)
+  }
+}
+
+result<- cbind(Username, Date, Rate, Review_Title, Review_Content)
+result<-data.frame(result)
+
+
+View(result)
+```
