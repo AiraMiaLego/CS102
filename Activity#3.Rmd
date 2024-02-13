@@ -1,0 +1,731 @@
+---
+title: "Activity#3"
+author: "Aira Mia Lego BSIT 2B"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r}
+library(rvest)
+library(httr)
+library(dplyr)
+library(polite)
+
+polite::use_manners(save_as = 'polite_scrape.R')
+
+links <- c(
+  "https://www.imdb.com/title/tt23289160/reviews/?ref_=tt_ov_rt",
+  "g4w6ddbmqyzdo6ic4oxwjnzzqlrmqbr634pt57xnb3epwvt5pjt6ubc7o4zf3mrcb4d7qlj7qsdfwwkmqi4r2ptj26vim",
+  "g4w6ddbmqyzdo6ic4oxwjnzrrlsm2aj73updx7hnaha7gv35pjt6ubc7pe2fvmznb4dwjuon2xlaeubw64pjffetcf5cm",
+  "g4w6ddbmqyzdo6ic4oxwjnbxqpr4qbj23ipd367kb3dpytttfjrkiccyoayvxpryocs7qb2wj3a6dgwrrqgejg3kvp5a",
+  "g4w6ddbmqyzdo6ic4oxwjnbur7qmuaj434kdb4hjatcpqvd5pjt6ubc6pe4v3nblb4d5um4skz4qfmezznye5e7ytfato",
+  "g4w6ddbmqyzdo6ic4oxwjnbvrpq42bbt3mnt34hlade7wud5pjt6ubc6oi3vxnbjb4dw3ljo6qeqnxg4sao6c3zaosax2",
+  "g4w6ddbmqyzdo6ic4oxwjnbtrtu46bbz2mktz77pb3cpqtttfjrkicc3ouyf3njyob2bmxgolu3j7bqvknwavuzec2lq",
+  "g4w6ddbmqyzdo6ic4oxwjnbrqprm2bb52iodt4hoa7d74ud5pjt6ubc7o43fzmbib4d2rrks6yrivgdxgh3w7xi3rwhku",
+  "g4w6ddbmqyzdo6ic4oxwjnjyrtqmsbrz2ipd567oa7e7svl5pjt6ubc7pazv3mrcb4d37o7gpf6bkip2osye6rfktl64e",
+  "g4w6ddbmqyzdo6ic4oxwjnjwqlum6bby2mntb77ma3dpew35pjt6ubc7pa3fxpzlb4d23mmlecxhgj3wqxablhhxq3ptk",
+  "g4w6ddbmqyzdo6ic4oxwjnjurdtm6ajy2modr7healdpuvdcoq366sssoq4vznjpdj4k5zxkmwxr7pbd4hwflpeu3nbln5q",
+  "g4w6ddbmqyzdo6ic4oxwjnjsr7qm6art3emd76xea7e7qulhoq366sssouzf5mrpdz4k5wdjj635tztrpydltpxtrr6xu3i",
+  "g4w6ddbmqyzdo6ic4oxwjnjqqpummbzt3indz7hnaha72v35pjt6ubc6oi3v7mbkb4d5wk6oql23cuk7pylhtuk7qtdlm",
+  "g4w6ddbmqyzdo6ic4oxwjnjrrhsmqbzz3mmtz4hmapd7sul5pjt6ubc7o42flprob4dvyh63oumzvrxy7dgg2p4pmcfao"
+)
+
+i<-2
+for (i in 1:13) {
+  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt23289160/reviews/?ref_=undefined&paginationKey=", links[i])
+  
+  session <- bow(url, user_agent = "Educational")
+  
+  username <- scrape(session) %>%
+    html_nodes('span.display-name-link') %>% 
+    html_text()
+  username
+  
+  dates <- scrape(session) %>%
+    html_nodes('span.review-date') %>% 
+    html_text()
+  dates
+  
+  title <- scrape(session) %>%
+    html_nodes('a.title') %>% 
+    html_text()
+  title
+  
+  content<- scrape(session) %>%
+    html_nodes('div.text.show-more__control') %>% 
+    html_text()
+  content
+  
+  ratings <- scrape(session) %>%
+    html_nodes('span.rating-other-user-rating') %>% 
+    html_text()
+  ratings
+  
+
+  if(i==1){
+    Username<- username
+    Date <- dates
+    Rate<- ratings
+    Review_Title<-title
+    Review_Content<- content
+  }
+  else{
+    Username <- c(Username, username)
+    Date <- c(Date, dates)
+    Rate <- c(Rate, ratings)
+    Review_Title<-c(Review_Title,title)
+    Review_Content<-c(Review_Content,content)
+  }
+}
+
+movie2<- cbind(Username, Date, Rate, Review_Title, Review_Content)
+movie2<-movie2[-301:-325,]
+movie2<-data.frame(movie2)
+
+
+View(movie2)
+```
+
+```{r}
+library(rvest)
+library(httr)
+library(dplyr)
+library(polite)
+
+polite::use_manners(save_as = 'polite_scrape.R')
+
+links <- c(
+  "https://www.imdb.com/title/tt0110357/reviews/?ref_=tt_ov_rt",
+  "g4w6ddbmqyzdo6ic4oxwjnbyrxrmwar32intv67pb3c7wvt5pjt6udkyoqzvtnbkb4ds2gz3zeq3nw3oexqls5ekqdbii",
+  "g4w6ddbmqyzdo6ic4oxwjnbsrtumqaz43qpd37hjalcpeu35pjt6ud2youzfvnjnb4d2sodud2ef7snncy3zwr3ytgecq",
+  "g4w6ddbmqyzdo6ic4oxwjnjyqlr4obrt3ept36platc7qw35pjt6uckspeyfxnrdb4driq67v4ixdjj3gxj2smu3tywi6",
+  "g4w6ddbmqyzdo6ic4oxwjnjxrpumsbzz3emtr7pnapc7yvtfoq366sszoazfjnridb4k4w6kacwfwmupy5eqdfbzh2mioga",
+  "g4w6ddbmqyzdo6ic4oxwjnjvrxqmmar634ott7hlatcp2u35pjt6ud27pe4vrnrpb4dszc5n57a4psdahf5mwmzv7o6sy",
+  "g4w6ddbmqyzdo6ic4oxwjnjtr3tmubr53ymtx4plape76u3hoq366ss7pe4vjmjmdb4k52s3m3sncsg7iarff4i6ahgtcay",
+  "g4w6ddbmqyzdo6ic4oxwjnjqrlq46cjz3ypdb7pnb3bp2uteoq366ss4om4vtmzidn4k4qcdeqcpniaoxsg652x6fkwtn2a",
+  "g4w6ddbmqyzdo6ic4oxwjmryrpr46bj53indb7xoado6qebgnuq22ckspeyu7w6qm2adh7njc5vmkti5ro62vkw5",
+  "g4w6ddbmqyzdo6ic4oxwjmrwrhs4qcj42mmd367nb3a74ulcoq366ss2o4zftmzpcv4k5sj5yd5lk44qdfusda6xonm67hi",
+  "g4w6ddbmqyzdo6ic4oxwjmrxrltmsaj63ipdd6hladc72wt5pjt6uc23oiyfjmjmb4ds426kcbsbirkxlarwrftgsvsuo",
+  "g4w6ddbmqyzdo6ic4oxwjmrvqlq4qajz2ipdt67fa3c76w3eoq366ss6o4yv3nrocv4k5wfbn7vcw3shltumcwxnu5ovrmi",
+  "g4w6ddbmqyzdo6ic4oxwjmrsrhqmmar73ykt56hmb7e7gul5pjt6uds4oyyfxmbjb4d5cpbnafefjwgrcrbm4jocmhvqm",
+  "g4w6ddbmqyzdo6ic4oxwjmrtr7smoajz2mkdb6xfa7c7qvtgoq366ssyoayftprmdr4k434tfwmk743a56v3egqyebovbby"
+)
+
+i<-2
+for (i in 1:13) {
+  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt0110357/reviews/?ref_=undefined&paginationKey=", links[i])
+  
+  session <- bow(url, user_agent = "Educational")
+  
+  username <- scrape(session) %>%
+    html_nodes('span.display-name-link') %>% 
+    html_text()
+  username
+  
+  dates <- scrape(session) %>%
+    html_nodes('span.review-date') %>% 
+    html_text()
+  dates
+  
+  title <- scrape(session) %>%
+    html_nodes('a.title') %>% 
+    html_text()
+  title
+  
+  content<- scrape(session) %>%
+    html_nodes('div.text.show-more__control') %>% 
+    html_text()
+  content
+  
+  ratings <- scrape(session) %>%
+    html_nodes('span.rating-other-user-rating') %>% 
+    html_text()
+  ratings
+  
+
+  if(i==1){
+    Username<- username
+    Date <- dates
+    Rate<- ratings
+    Review_Title<-title
+    Review_Content<- content
+  }
+  else{
+    Username <- c(Username, username)
+    Date <- c(Date, dates)
+    Rate <- c(Rate, ratings)
+    Review_Title<-c(Review_Title,title)
+    Review_Content<-c(Review_Content,content)
+  }
+}
+
+movie3<- cbind(Username, Date, Rate, Review_Title, Review_Content)
+movie3<-movie3[-301:-325,]
+movie3<-data.frame(movie3)
+
+
+View(movie3)
+```
+
+```{r}
+library(rvest)
+library(httr)
+library(dplyr)
+library(polite)
+
+polite::use_manners(save_as = 'polite_scrape.R')
+
+links <- c(
+  "https://www.imdb.com/title/tt0096283/reviews/?ref_=tt_ov_rt",
+  "g4w6ddbmqyzdo6ic4oxwjnztrtsmybr63emd57pkaddpeul5pjt6udstoyyvtnzob4d2mopz7dqc3k2jt42toapoupkwy",
+  "g4w6ddbmqyzdo6ic4oxwjnjwrpt4uaz534ntt4pja7b7ew35pjt6uc26o4yvxmjnb4dqeii57ocnmazwo2usyvl2e7qfs",
+  "g4w6ddbmqyzdo6ic4oxwjnjrrtrmsbj43mpd57pealepyul5pjt6udszou3vlnblb4d4lyggep2zkcg7dwg4omztn72ve",
+  "g4w6ddbmqyzdo6ic4oxwjmrxrdu44abs2iodd6pfalapyu35pjt6uc2zoyzvlmzib4dq5n7x4jtivkshbrciusnuhknpg",
+  "g4w6ddbmqyzdo6ic4oxwjmrqrxrm2cbt3aptz7xlaxd7wu3eoq366sszoyzvtnbjdj4k5msofb4ita5vrazhheyphu43fsy",
+  "g4w6ddbmqyzdo6ic4oxwjmzzrpt4wbz43ynd57pkadcpyvl5pjt6uds5oq2fzmjob4d4qvyhva5g65ae7u43vbjpdsjz4",
+  "g4w6ddbmqyzdo6ic4oxwjmzxqpqmmbrt3antd67lb7bp2wt5pjt6ucszoyyfjnbcb4dytilzh6c3aafwk5b4asven7dvc",
+  "g4w6ddbmqyzdo6ic4oxwjmzuqlsmubbs34mtb7hjb3c76w3foq366ss7oezfrmzldz4k5m7h74y36gmgiw2ixt2vummafwi",
+  "g4w6ddbmqyzdo6ic4oxwjmzvr7tmmcb63unt577lapb7gu3goq366ss5oiyfxnzjdv4k5tyx4iq6xrzi6fsdginm4impdua",
+  "g4w6ddbmqyzdo6ic4oxwjmzsrlq42ab43eodz7hfaxc76wtcoq366ss3oi3v5nrkdf4k4kgtqdoezfelmbipxke6gdrit7a",
+  "g4w6ddbmqyzdo6ic4oxwjmzqqlsm6az23updr7xoa3d7qu3goq366ss7oayftmzldn4k5ksqrwjpf3nypyi4ypiituyqgby",
+  "g4w6ddbmqyzdo6ic4oxwjmzrrtr46bj23ypdb4hnahdpeudgoq366ss6o4yvznzkcv4k5jt5xsyeve6eogrbook3lffv3rq",
+  "g4w6ddbmqyzdo6ic4oxwjmbyrdtm2ab43eodz7hfaxc76wtdoq366ss2ouyfjnbddb4k5ux4nlt2xa2tnnu5wilmcygm3fa"
+)
+
+i<-2
+for (i in 1:13) {
+  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt0096283/reviews/?ref_=undefined&paginationKey=", links[i])
+  
+  session <- bow(url, user_agent = "Educational")
+  
+  username <- scrape(session) %>%
+    html_nodes('span.display-name-link') %>% 
+    html_text()
+  username
+  
+  dates <- scrape(session) %>%
+    html_nodes('span.review-date') %>% 
+    html_text()
+  dates
+  
+  title <- scrape(session) %>%
+    html_nodes('a.title') %>% 
+    html_text()
+  title
+  
+  content<- scrape(session) %>%
+    html_nodes('div.text.show-more__control') %>% 
+    html_text()
+  content
+  
+  ratings <- scrape(session) %>%
+    html_nodes('span.rating-other-user-rating') %>% 
+    html_text()
+  ratings
+  
+
+  if(i==1){
+    Username<- username
+    Date <- dates
+    Rate<- ratings
+    Review_Title<-title
+    Review_Content<- content
+  }
+  else{
+    Username <- c(Username, username)
+    Date <- c(Date, dates)
+    Rate <- c(Rate, ratings)
+    Review_Title<-c(Review_Title,title)
+    Review_Content<-c(Review_Content,content)
+  }
+}
+
+movie4<- cbind(Username, Date, Rate, Review_Title, Review_Content)
+movie4<-movie4[-301:-325,]
+movie4<-data.frame(movie4)
+
+
+View(movie4)
+```
+```{r}
+library(rvest)
+library(httr)
+library(dplyr)
+library(polite)
+
+polite::use_manners(save_as = 'polite_scrape.R')
+
+links <- c(
+  "https://www.imdb.com/title/tt9362722/reviews/?ref_=tt_ov_rt",
+  "g4w6ddbmqyzdo6ic4oxwjnzwrdsmubz53eotd6xlaxbomqbdf4wk2bc4oqzvljchz4xjc7vm6hbfpdsu7jlk5ylguq",
+  "g4w6ddbmqyzdo6ic4oxwjnbwr7u4ybj22ipd56heaxc7uvd5pjt6ubczomzftpzcb4d4ng2yjwuljoq25yhbr6dgpjsb2",
+  "g4w6ddbmqyzdo6ic4oxwjnbxrds42aby3iod37hka7d76vt5pjt6ubc2oe2ftnbpb4dvkn7gz2f7wttxpgtwh26r57zwi",
+  "g4w6ddbmqyzdo6ic4oxwjnburls4mbz63mkd54heb7a76ul5pjt6ubczouyv7njpb4d5oqzigz5exbk2tqpzzdgjrmovc",
+  "g4w6ddbmqyzdo6ic4oxwjnbsr3tmyabz2mkdx7xjald74vl5pjt6ubc2oe2v5nbjb4dvorkmfgom6utud4dssppwe63iu",
+  "g4w6ddbmqyzdo6ic4oxwjnbtrdr4sazy3umtz67mapepuw35pjt6ubc3pe4v5mzmb4d47czx3ubw6xpydwqw5w2gadbyy",
+  "g4w6ddbmqyzdo6ic4oxwjnbqrpqm2bz234ptz7hoahcpuvl5pjt6ubc3pe2vvmznb4dxyhi23jd3ao2fqccw7keeyn5vu",
+  "g4w6ddbmqyzdo6ic4oxwjnjzrtr4waj53qptr77pb7dpqulgoq366sssoi2fjnrcdv4k4r6moviljhn2sodz6yhoo2jzt6a",
+  "g4w6ddbmqyzdo6ic4oxwjnjwqpsmmaz72mptz4hkalep2udcoq366sssoi3vrpzidf4k5iyl4t7ebr4tzfxvw4i4ccaa4zi",
+  "g4w6ddbmqyzdo6ic4oxwjnjwrhs4mbr73aott6xfale76tttfjrkidksouzvjnzyobhggt6giuzy4dnb7pqbhjs4j3mq",
+  "g4w6ddbmqyzdo6ic4oxwjnjxrtr4obz42mmdx4hfb7ep2wtfoq366sssoiyvxpzpdf4k4ivvidjqdu7lutllww4v3zht57y",
+  "g4w6ddbmqyzdo6ic4oxwjnjuqlt44az53qntd4hjaxbpuvdgoq366sssoi2fxprkdn4k5r5odnovbjehkywmdm7bdwgy66q",
+  "g4w6ddbmqyzdo6ic4oxwjnjurptmsbr33aptb4pfa7cpwtttfjrkidc6ou4f5pzyock2535jsoyr4y25n23zk2xwicra"
+)
+
+i<-2
+for (i in 1:13) {
+  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt9362722/reviews/?ref_=undefined&paginationKey=", links[i])
+  
+  session <- bow(url, user_agent = "Educational")
+  
+  username <- scrape(session) %>%
+    html_nodes('span.display-name-link') %>% 
+    html_text()
+  username
+  
+  dates <- scrape(session) %>%
+    html_nodes('span.review-date') %>% 
+    html_text()
+  dates
+  
+  title <- scrape(session) %>%
+    html_nodes('a.title') %>% 
+    html_text()
+  title
+  
+  content<- scrape(session) %>%
+    html_nodes('div.text.show-more__control') %>% 
+    html_text()
+  content
+  
+  ratings <- scrape(session) %>%
+    html_nodes('span.rating-other-user-rating') %>% 
+    html_text()
+  ratings
+  
+
+  if(i==1){
+    Username<- username
+    Date <- dates
+    Rate<- ratings
+    Review_Title<-title
+    Review_Content<- content
+  }
+  else{
+    Username <- c(Username, username)
+    Date <- c(Date, dates)
+    Rate <- c(Rate, ratings)
+    Review_Title<-c(Review_Title,title)
+    Review_Content<-c(Review_Content,content)
+  }
+}
+
+movie5<- cbind(Username, Date, Rate, Review_Title, Review_Content)
+movie5<-movie5[-301:-325,]
+movie5<-data.frame(movie5)
+
+
+View(movie5)
+```
+```{r}
+library(rvest)
+library(httr)
+library(dplyr)
+library(polite)
+
+polite::use_manners(save_as = 'polite_scrape.R')
+
+links <- c(
+  "https://www.imdb.com/title/tt0095327/reviews/?ref_=tt_ov_rt",
+  "g4w6ddbmqyzdo6ic4oxwjnrxrpq4oaz334kd76piada76vd5pjt6udkzou4vzmjob4dqqwny32bwubu22qv6zkbog436e",
+  "g4w6ddbmqyzdo6ic4oxwjnzvrdrmwaz23amdb7hjate7wtttfjrk2d26pazf3nryoas46ubnnlkdok7l5tydrcx4wyoa",
+  "g4w6ddbmqyzdo6ic4oxwjnbur7u4sar52motx7plaxap4w35pjt6uds3pe2vlprob4dxg77ljlx2xz74n7ykdje4t4lj4",
+  "g4w6ddbmqyzdo6ic4oxwjnbrqpqmsbr63int37pla7d74vd5pjt6udc5om3fjnzjb4dw66mjrfmtkntvfjk77w6n3krs6",
+  "g4w6ddbmqyzdo6ic4oxwjnjzrhs42cb42ipdt4hla3bpyvt5pjt6udksoy2fzpzmb4d7qyvl5yn5jcg26ivpqyrf25yos",
+  "g4w6ddbmqyzdo6ic4oxwjnjvrxrmyab33qktt7hiadcpgw3foq366sszom3vvpzndf4k56riul6pyv7b7f6poquhzhqlqsa",
+  "g4w6ddbmqyzdo6ic4oxwjnjtqlt4mbz73uotz7pna7ap4uleoq366sszo44v5njcdr4k5x46jiakmq7w6zimjsjtruvlhvq",
+  "g4w6ddbmqyzdo6ic4oxwjnjqrdq44cjt3ymdx6hoaxdpwul5pjt6uds6ouyfzmjnb4dsrdfghmqduamyd3tao4gpbkn3k",
+  "g4w6ddbmqyzdo6ic4oxwjmryqpqmqbr434pdv4plahep6vtfoq366ssyoqzftnjldr4k4ubfsa6ywdh554v2tt7voxm4wua",
+  "g4w6ddbmqyzdo6ic4oxwjmrzrdumyar43ekd767nadcpgvl5pjt6udkzou4vzmzlb4d272physhmvlouvm3qpitnxyymw",
+  "g4w6ddbmqyzdo6ic4oxwjmrxrpu42bz73iktb4heahb7gvtgoq366ss2oe4vxmjidf4k4kvaxtvjvph5twfhbkowarkzj5a",
+  "g4w6ddbmqyzdo6ic4oxwjmrvrhqm4cb62iot36xpadapsvt5pjt6udkzou4vzmrpb4d4ydibwckji3ivttewd2hrwge7o",
+  "g4w6ddbmqyzdo6ic4oxwjmrtrhq46bz634mdx6poaxbpww3hoq366ss7oy3fvnzmdj4k5ya33y2vkkbf6v6zraecqvti3da"
+)
+
+i<-2
+for (i in 1:13) {
+  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt9362722/reviews/?ref_=undefined&paginationKey=", links[i])
+  
+  session <- bow(url, user_agent = "Educational")
+  
+  username <- scrape(session) %>%
+    html_nodes('span.display-name-link') %>% 
+    html_text()
+  username
+  
+  dates <- scrape(session) %>%
+    html_nodes('span.review-date') %>% 
+    html_text()
+  dates
+  
+  title <- scrape(session) %>%
+    html_nodes('a.title') %>% 
+    html_text()
+  title
+  
+  content<- scrape(session) %>%
+    html_nodes('div.text.show-more__control') %>% 
+    html_text()
+  content
+  
+  ratings <- scrape(session) %>%
+    html_nodes('span.rating-other-user-rating') %>% 
+    html_text()
+  ratings
+  
+
+  if(i==1){
+    Username<- username
+    Date <- dates
+    Rate<- ratings
+    Review_Title<-title
+    Review_Content<- content
+  }
+  else{
+    Username <- c(Username, username)
+    Date <- c(Date, dates)
+    Rate <- c(Rate, ratings)
+    Review_Title<-c(Review_Title,title)
+    Review_Content<-c(Review_Content,content)
+  }
+}
+
+movie6<- cbind(Username, Date, Rate, Review_Title, Review_Content)
+movie6<-movie6[-301:-325,]
+movie6<-data.frame(movie6)
+
+
+View(movie6)
+```
+```{r}
+library(rvest)
+library(httr)
+library(dplyr)
+library(polite)
+
+polite::use_manners(save_as = 'polite_scrape.R')
+
+links <- c(
+  "https://www.imdb.com/title/tt2380307/reviews/?ref_=tt_ov_rt",
+  "g4w6ddbmqyzdo6ic4oxwjnzxrpqmqcj33imdb4heahcp4tttfjrksdk5o4yv7mryoa5plfgmd4xmv6nvlys2jdd5zi4q",
+  "g4w6ddbmqyzdo6ic4oxwjnjzqpum4bzy34kdd4hkatep6vd5pjt6ucczoiyvrmrpb4d5jdc4kpvjfcyopsxnwjdlvggi2",
+  "g4w6ddbmqyzdo6ic4oxwjnjvrlqm6az334ktv4hka7dpgu3coq366ss7om2vjnrodv4k5cyjb5u2djtlynkcbs4qlslcodi",
+  "g4w6ddbmqyzdo6ic4oxwjnjqrhqmyabz3mpdd7xkatep2ud5pjt6ucssouzv7pzpb4dyiux75nljxgzwmpnpeyvrcbozw",
+  "g4w6ddbmqyzdo6ic4oxwjmrzr3s4obb634ndd4hfadb7uwthoq366ss7omyfrpridr4k4euyayiztv24gedcvtrh5hv5xji",
+  "g4w6ddbmqyzdo6ic4oxwjmrxr7rmmbz53iodt6hea7a7eu3hoq366ss7oe2vrnzkdb4k5i3obzzog4xemlcvbkfw3jst2wa",
+  "g4w6ddbmqyzdo6ic4oxwjmrurprm2bz63aktr4hnb3ep2v35pjt6uck7oiyvlmbpb4dznectwhf5cmum4agoe65i7szco",
+  "g4w6ddbmqyzdo6ic4oxwjmrvrprm6cj634ktr7xladapyw3coq366ssypa3fznrodf4k5ychcgxu7zz2g44ulm476z7sjxa",
+  "g4w6ddbmqyzdo6ic4oxwjmrtrhtmyaj42imt367paxb7stttfjrkqbc3om2f3nbyoao4yguygnipedfm2svw3iavsy6a",
+  "g4w6ddbmqyzdo6ic4oxwjmrrqpu4wajy3entz4ppatdpqw3coq366ssypa3vjnzddr4k4lyd5stlik6mpi6oqbjcniguhgi",
+  "g4w6ddbmqyzdo6ic4oxwjmzyrxtmsab534ptx67fade76vd5pjt6udsto43fvprlb4ducpv6vlutng4xvmlpouuvxcanq",
+  "g4w6ddbmqyzdo6ic4oxwjmzyrds4qbb62int77xlahbpev35pjt6uc27ou4f5njob4dubxhoenpuxmvf2jpoqm7wgnxqa",
+  "g4w6ddbmqyzdo6ic4oxwjmzzrxt46br42ipdt6heb3c7qwt5pjt6uck2pa4frprmb4dwjhtf723xuuwtypprnewrifuz4"
+)
+
+i<-2
+for (i in 1:13) {
+  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt2380307/reviews/?ref_=undefined&paginationKey=", links[i])
+  
+  session <- bow(url, user_agent = "Educational")
+  
+  username <- scrape(session) %>%
+    html_nodes('span.display-name-link') %>% 
+    html_text()
+  username
+  
+  dates <- scrape(session) %>%
+    html_nodes('span.review-date') %>% 
+    html_text()
+  dates
+  
+  title <- scrape(session) %>%
+    html_nodes('a.title') %>% 
+    html_text()
+  title
+  
+  content<- scrape(session) %>%
+    html_nodes('div.text.show-more__control') %>% 
+    html_text()
+  content
+  
+  ratings <- scrape(session) %>%
+    html_nodes('span.rating-other-user-rating') %>% 
+    html_text()
+  ratings
+  
+
+  if(i==1){
+    Username<- username
+    Date <- dates
+    Rate<- ratings
+    Review_Title<-title
+    Review_Content<- content
+  }
+  else{
+    Username <- c(Username, username)
+    Date <- c(Date, dates)
+    Rate <- c(Rate, ratings)
+    Review_Title<-c(Review_Title,title)
+    Review_Content<-c(Review_Content,content)
+  }
+}
+
+movie7<- cbind(Username, Date, Rate, Review_Title, Review_Content)
+movie7<-movie7[-301:-325,]
+movie7<-data.frame(movie7)
+
+
+View(movie7)
+```
+
+```{r}
+library(rvest)
+library(httr)
+library(dplyr)
+library(polite)
+
+polite::use_manners(save_as = 'polite_scrape.R')
+
+links <- c(
+  "https://www.imdb.com/title/tt0119698/reviews/?ref_=tt_ov_rt",
+  "g4w6ddbmqyzdo6ic4oxwjnzrqptmybz42imtz67la7apeud5pjt6uck4oq3fxprib4drgqd7qu7rido5jim3gy2td2yje",
+  "g4w6ddbmqyzdo6ic4oxwjnbtqlsmucb43iod54pia3c7uwt5pjt6udctoy4f3nrjb4dyi6hktoar7hssjpstckwznjqgq",
+  "g4w6ddbmqyzdo6ic4oxwjnjvr7r46cb53ypdb7pfa3bpuvteoq366ss7o4zfvnrndz4k5oeyytzjosdop533wjbw2hkdtcy",
+  "g4w6ddbmqyzdo6ic4oxwjnjtrxt4wcj53ymdb7hjaxcp2w3foq366ss2oyzftnjodj4k56darv2o6rnsmtanzjpei3hju3q",
+  "g4w6ddbmqyzdo6ic4oxwjnjrrlqmmajy34ntr7pea3cp4vlgoq366ss4oq4vjmjkcr4k4ibd52tgigwu2dqh6rkmtnk6nyy",
+  "g4w6ddbmqyzdo6ic4oxwjmrxr3q42cb33endd7xiadcpyul5pjt6uds7ouyftpzlb4dq7l5mmlpiam2lbxptgssofpo36",
+  "g4w6ddbmqyzdo6ic4oxwjmrsrxr4qbz73iod56xlb7bpyw35pjt6uds6oezvjmrkb4d32dasu5tkgyiwj6szi4eqr4pqu",
+  "g4w6ddbmqyzdo6ic4oxwjmrqrlrmwajz34odx67mapdpsw35pjt6udk7oi3vrmzib4dselu2etrksprozq67brypx656a",
+  "g4w6ddbmqyzdo6ic4oxwjmzzrxs42aj63updv7hla3e7eudgoq366sssou2vvmbldn4k54g3vahzfgoj4gdz2irtuzkjogi",
+  "g4w6ddbmqyzdo6ic4oxwjmzxqps46brs2iktb7xfb7epuvlcoq366ss3oqzvxnjcd54k5ltt2bagpcl5dpds4zhtqbaj6sy",
+  "g4w6ddbmqyzdo6ic4oxwjmzurxrmwab23imdz7pkade7uud5pjt6udc6oy4v3prob4d575vse2xw5flyx7yy2r4jy6tw2",
+  "g4w6ddbmqyzdo6ic4oxwjmzvr3u4mbr43qmtt7xna3b74vdjoq366sssoi2fvmrndr4k5dfwz5jffb3aw2uh3f732mddxjq",
+  "g4w6ddbmqyzdo6ic4oxwjmzsrpqmwaby34md57hpaxdpyul5pjt6udk7oi3v5mzpb4dsay4xtn2slrtehxjfcielwaw2m"
+)
+
+i<-2
+for (i in 1:13) {
+  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt0119698/reviews/?ref_=undefined&paginationKey=", links[i])
+  
+  session <- bow(url, user_agent = "Educational")
+  
+  username <- scrape(session) %>%
+    html_nodes('span.display-name-link') %>% 
+    html_text()
+  username
+  
+  dates <- scrape(session) %>%
+    html_nodes('span.review-date') %>% 
+    html_text()
+  dates
+  
+  title <- scrape(session) %>%
+    html_nodes('a.title') %>% 
+    html_text()
+  title
+  
+  content<- scrape(session) %>%
+    html_nodes('div.text.show-more__control') %>% 
+    html_text()
+  content
+  
+  ratings <- scrape(session) %>%
+    html_nodes('span.rating-other-user-rating') %>% 
+    html_text()
+  ratings
+  
+
+  if(i==1){
+    Username<- username
+    Date <- dates
+    Rate<- ratings
+    Review_Title<-title
+    Review_Content<- content
+  }
+  else{
+    Username <- c(Username, username)
+    Date <- c(Date, dates)
+    Rate <- c(Rate, ratings)
+    Review_Title<-c(Review_Title,title)
+    Review_Content<-c(Review_Content,content)
+  }
+}
+
+movie8<- cbind(Username, Date, Rate, Review_Title, Review_Content)
+movie8<-movie8[-301:-325,]
+movie8<-data.frame(movie8)
+
+
+View(movie8)
+```
+```{r}
+library(rvest)
+library(httr)
+library(dplyr)
+library(polite)
+
+polite::use_manners(save_as = 'polite_scrape.R')
+
+links <- c(
+  "https://www.imdb.com/title/tt5311514/reviews/?ref_=tt_ov_rt",
+  "g4w6ddbmqyzdo6ic4oxwjnzxr3r44brz3qpt577fa7dpsvt5pjt6ucszo4zfrmjlb4dwtqwuieegvirha7wq6uevo7ux6",
+  "g4w6ddbmqyzdo6ic4oxwjnbuqprmwaz53iodb7pjatcpsvt5pjt6uckype4vvnzpb4d3hhrpdv7ia22n4u5nzyu6ba7bg",
+  "g4w6ddbmqyzdo6ic4oxwjnbtrpsm2bjy3mpd56xkala7uv35pjt6uck7o4yvzpzpb4drnmq5qbkdecnkafxhdile6bkxw",
+  "g4w6ddbmqyzdo6ic4oxwjnjwrhqmucjy3eodv67fape7uw3goq366ssyoyzvzmzocv4k4ss3o6dln77d4kqjlmy4ogfzyui",
+  "g4w6ddbmqyzdo6ic4oxwjnjvrtrm4br32mkdd7xjatapeuleoq366ss7om2vjmrcdn4k5envlquq2bff5non4x5o2cvamoq",
+  "g4w6ddbmqyzdo6ic4oxwjnjtrpr4wbb33intd7pfapa7wud5pjt6uck3pe4fvprnb4dx2qgqik2l5rj5ce35zeuhx7kju",
+  "g4w6ddbmqyzdo6ic4oxwjnjrrtr4mabt2iot76pea7b7gv35pjt6ucc4oeyvrprnb4d3fqjalkdqnscaan34ee23iqjpc",
+  "g4w6ddbmqyzdo6ic4oxwjmryrhs4sbz43upt57xjaha7ytttfjrkud25oqyflnryobje37nj7nhaval5bl5fm5lztykq",
+  "g4w6ddbmqyzdo6ic4oxwjmrwr7tm6az53uodd7headepevlfoq366ss6pa3fzpzldv4k4jr47gzij727x3ecxkc6bs2ubmq",
+  "g4w6ddbmqyzdo6ic4oxwjmrxrlq46az73imdv6hfa3a76ulfoq366ss7omyftnrldf4k5pd4n4yajxgr5ouaii657r6j4by",
+  "g4w6ddbmqyzdo6ic4oxwjmrvr7u42cb33qotz77paddp2v35pjt6uds5oeyfznrnb4dyglsgequihnqk5nyz3tv3eyvwo",
+  "g4w6ddbmqyzdo6ic4oxwjmrsrhsm4ary34ktb6xjaxdpgvlhoq366ss5oy2fjmrldj4k5avgdd7n7lnhyadseu223zo6dzy",
+  "g4w6ddbmqyzdo6ic4oxwjmrtr3qmubbs2iotb7hiade7gw35pjt6uc2toe3v5mzjb4dr6fnnpbfldbjmrorkq4ic4sew6"
+)
+
+i<-2
+for (i in 1:13) {
+  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt5311514/reviews/?ref_=undefined&paginationKey=", links[i])
+  
+  session <- bow(url, user_agent = "Educational")
+  
+  username <- scrape(session) %>%
+    html_nodes('span.display-name-link') %>% 
+    html_text()
+  username
+  
+  dates <- scrape(session) %>%
+    html_nodes('span.review-date') %>% 
+    html_text()
+  dates
+  
+  title <- scrape(session) %>%
+    html_nodes('a.title') %>% 
+    html_text()
+  title
+  
+  content<- scrape(session) %>%
+    html_nodes('div.text.show-more__control') %>% 
+    html_text()
+  content
+  
+  ratings <- scrape(session) %>%
+    html_nodes('span.rating-other-user-rating') %>% 
+    html_text()
+  ratings
+  
+
+  if(i==1){
+    Username<- username
+    Date <- dates
+    Rate<- ratings
+    Review_Title<-title
+    Review_Content<- content
+  }
+  else{
+    Username <- c(Username, username)
+    Date <- c(Date, dates)
+    Rate <- c(Rate, ratings)
+    Review_Title<-c(Review_Title,title)
+    Review_Content<-c(Review_Content,content)
+  }
+}
+
+movie9<- cbind(Username, Date, Rate, Review_Title, Review_Content)
+movie9<-movie9[-301:-325,]
+movie9<-data.frame(movie9)
+
+
+View(movie9)
+```
+```{r}
+library(rvest)
+library(httr)
+library(dplyr)
+library(polite)
+
+polite::use_manners(save_as = 'polite_scrape.R')
+
+links <- c(
+  "https://www.imdb.com/title/tt0089881/reviews/?ref_=tt_ov_rt",
+  "g4w6ddbmqyzdo6ic4oxwjnjwrdtmuazt3mnt74hoaxdp2vlcoq366ss6pa4flprlcv4k5q7pgqdy4y4hpgl7sjha323vecq",
+  "g4w6ddbmqyzdo6ic4oxwjnjrrxu44bj33uptr6xkb7ap4w3coq366sszoa4frnjpdj4k4tdrcnq2visytn6lx7nlfzbwv2a",
+  "g4w6ddbmqyzdo6ic4oxwjmrvr3rmocb73end767pb3ap6vdhoq366ss3oizvrmzidj4k4ukjvbx3w5jerf4flilib7rpzsa",
+  "g4w6ddbmqyzdo6ic4oxwjmzyrdrmmbb43imdx4hjadap4udhoq366sssomyfvmzndr4k47jan5sxvq2doct2qo34mydgb3i",
+  "g4w6ddbmqyzdo6ic4oxwjmzxrxqmsbbt3ipdr4plaha74ul5pjt6uck6oq2f3mrjb4drkz26cacmzxpdejhses6zhpiku",
+  "g4w6ddbmqyzdo6ic4oxwjmzvrts44bjy2mpt76xka3dp6vldoq366ss4pa4fznjldn4k5qulg277daxushamkc6x4dyg4aa",
+  "g4w6ddbmqyzdo6ic4oxwjmztrpq4uazt3yntr7hob7cp2u35pjt6ucs4oqyf5mblb4dti4mmngf4a7l3edeyr56rdbuws",
+  "g4w6ddbmqyzdo6ic4oxwjmbyrtt46bb73emdr67lb3bp6udeoq366ss3oizvrmzjdn4k5u4uos6nwdhzu32anbdwbzscu4q",
+  "g4w6ddbmqyzdo6ic4oxwjmbxqpt46bjz2mmt56piaxe76vl5pjt6uck7oq4fxmrjb4d4vwswijwyevxp7j3wy3bwxrcmu",
+  "g4w6ddbmqyzdo6ic4oxwjmbvr7t46bjz2mmt56piaxe76vl5pjt6ubc3pa4vtmjob4dspldjk5qwv3c3dowjzps2vnay4",
+  "g4w6ddbmqyzdo6ic4oxwjmbrqpt46bjz2mmt56piaxe76vlaoq366ss7oizf5nzjdv4k5zbnmt5jd7mpzvxehl267yu762a",
+  "g4w6ddbmqyzdo6ic4oxwjmjzrxs4scb63mpd57hfb3a72ud5pjt6udkzoi2frnjob4drxhioeua7kyc6ygarohnu25z56",
+  "g4w6ddbmqyzdo6ic4oxwjmjvql6nyq343mpdx7pjatboqp4zxsfmd4jqlj72nfebswvhxfx4"
+)
+
+i<-2
+for (i in 1:13) {
+  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt0089881/reviews/?ref_=undefined&paginationKey=", links[i])
+  
+  session <- bow(url, user_agent = "Educational")
+  
+  username <- scrape(session) %>%
+    html_nodes('span.display-name-link') %>% 
+    html_text()
+  username
+  
+  dates <- scrape(session) %>%
+    html_nodes('span.review-date') %>% 
+    html_text()
+  dates
+  
+  title <- scrape(session) %>%
+    html_nodes('a.title') %>% 
+    html_text()
+  title
+  
+  content<- scrape(session) %>%
+    html_nodes('div.text.show-more__control') %>% 
+    html_text()
+  content
+  
+  ratings <- scrape(session) %>%
+    html_nodes('span.rating-other-user-rating') %>% 
+    html_text()
+  ratings
+  
+
+  if(i==1){
+    Username<- username
+    Date <- dates
+    Rate<- ratings
+    Review_Title<-title
+    Review_Content<- content
+  }
+  else{
+    Username <- c(Username, username)
+    Date <- c(Date, dates)
+    Rate <- c(Rate, ratings)
+    Review_Title<-c(Review_Title,title)
+    Review_Content<-c(Review_Content,content)
+  }
+}
+
+movie10<- cbind(Username, Date, Rate, Review_Title, Review_Content)
+movie10<-movie10[-301:-325,]
+movie10<-data.frame(movie10)
+
+
+View(movie10)
+```
+
