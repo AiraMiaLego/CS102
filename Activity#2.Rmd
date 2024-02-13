@@ -79,8 +79,11 @@ for (i in 1:13) {
 }
 
 result<- cbind(Username, Date, Rate, Review_Title, Review_Content)
+result<-result[-301:-325,]
 result<-data.frame(result)
+
 
 
 View(result)
 ```
+
