@@ -20,7 +20,7 @@ movie
 str(movie)
 
 # Print the first few rows of the data frame
-head(data)
+head(movie)
 
 #only getting the data I want
 movies<-movie[c(1,301,601,901,1201,1501,1801,2101,2401,2701),]
@@ -31,16 +31,20 @@ View(movies)
 
 #clean up the Review_Title column by removing leading, trailing and extra white spaces.
 movies$Review_Title <- trimws(movies$Review_Title)
-movies
-View(movies)
+
+#substring(x, first, last) extracts substrings from x starting from first character to last character.
+#Specify 2 as the starting position and nchar(movies$Title_review) - 0 as the ending position to exclude the first and last characters, which are the double quotes.
+movies$Review_Title[1]<- substring(movies$Review_Title[1], 2, nchar(movies$Review_Title[1]) -0)
+movies$Review_Title[1]<- substring(movies$Review_Title[1], 0, nchar(movies$Review_Title[1]) -1)
+
+movies$Review_Title
+
 
 #'\\s+' is a regular expression pattern that matches one or more white spaces.
 # gsub() replaces all occurrences of the pattern with a single space.
 movies$Rate <- gsub("\\s+", " ", movies$Rate)
 movies$Rate <- trimws(movies$Rate)
 movies$Rate
-
-View(movies)
 
 movies$Review_Title <- gsub("\\s+", " ", movies$Review_Title)
 movies$Review_Title
@@ -50,23 +54,20 @@ movies$Review_Title
 
 #substring(x, first, last) extracts substrings from x starting from first character to last character.
 #Specify 2 as the starting position and nchar(movies$Title_review) - 1 as the ending position to exclude the first and last characters, which are the double quotes.
-movies$Review_Title <- substring(movies$Review_Title, 2, nchar(movies$Review_Title) -1)
-View(movies)
 
 
 moviesQ<- character(nrow(movies))
 
 for (i in 1:nrow(movies)){
-  moviesQ[i]<- paste0("INSERT INTO movie10 (movie_title, reviewer, date_of_review, rating,  title_of_the_review,  review) VALUES('",
-                      movies$movtitles[i], "', '",
-                      movies$Username[i], "', '",
-                      movies$Date[i], "', '",
-                      movies$Rate[i], "', '",
-                      movies$Review_Title[i], "', '",
-                      movies$Review_Content[i], "')")
+  movies10Q[i]<- paste0("INSERT INTO movie10(movie_title, reviewer, date_of_review, rating,  title_of_the_review,  review) VALUES('",
+                        movies$movtitles[i], "', '",
+                        movies$Username[i], "', '",
+                        movies$Date[i], "', '",
+                        movies$Rate[i], "', '",
+                        movies$Review_Title[i], "', '",
+                        movies$Review_Content[i], "')")
 }
-moviesQ[1]
-
+dbWriteTable(connection,name="movies10",value=movies,row.names=FALSE,append=TRUE)
 
 #listing the tables of the movie10_reviews 
 dbListTables(connection)
@@ -75,9 +76,12 @@ dbListTables(connection)
 dbListFields(connection,"movies")
 
 glimpse(movies)
-
-write.csv(movies,file = "10Movies_mysql.csv")
 #disconnect from dbase
-dbDisconnect(connection)
 
+write.csv(movies, file = "movies_mysql.csv")
+save.csv
+
+
+
+dbDisconnect(connection)
 
