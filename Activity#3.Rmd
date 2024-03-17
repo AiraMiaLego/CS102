@@ -14,26 +14,26 @@ library(polite)
 
 polite::use_manners(save_as = 'polite_scrape.R')
 
-links <- c(
+list1 <- c(
   "https://www.imdb.com/title/tt0057012/reviews/?ref_=tt_ov_rt",
-  "g4w6ddbmqyzdo6ic4oxwjnzqrhrmsaz42ipdb7pja3epyvl5pjt6uccso43f7pzmb4d2o6cyh6hclatpgd32tcxrj2fea",
-  "g4w6ddbmqyzdo6ic4oxwjnbrr3tm2azy3ynd54hfalapgvd5pjt6ud2souyfrmzdb4dwcfbjkibf34rq6z3fg67ugfj3c",
-  "g4w6ddbmqyzdo6ic4oxwjnjuqls4sars3qpdd4hiahcpqtttfjrkqbc4oa3fjpryobdscp5kckyn5e5ihsx4gtiql7ca",
-  "g4w6ddbmqyzdo6ic4oxwjnjsrxrmsbz43mmt37hmapap6ud5pjt6udc3oqzfxmjlb4dsigvv4rir674evvdz4d6tlqrao",
-  "g4w6ddbmqyzdo6ic4oxwjnjqrdt42ar23mmdd4pnb7e76ul5pjt6udsyoy4fznzdb4d65gqgt36gait46ztd6ffg7ncg4",
-  "g4w6ddbmqyzdo6ic4oxwjmryr7tmsab23iptt4hlatapqul5pjt6ud2zom3fzpzjb4d32yqf6mzivin2roqqsusx3g27i",
-  "g4w6ddbmqyzdo6ic4oxwjmrzrtu4ocj73umdd6hiahepyvl5pjt6udk3payf7nbib4dyam3l5szpdzyblnbzuw7facblm",
-  "g4w6ddbmqyzdo6ic4oxwjmrwrxt4sbz334ot77peaxb7stttfjrkwdc6oy4f3mjyoabt6oysil6dt5osvcsx3lrqsxuq",
-  "g4w6ddbmqyzdo6ic4oxwjmrxrts42br23updb4pjb7b72vd5pjt6ud26ou3vvnbob4dzhbxigq5ouzclwwoy5bllvdp7o",
-  "g4w6ddbmqyzdo6ic4oxwjmrurtumwbz33qodz67pb7bpeul5pjt6uds3omyv5mzlb4d7lq764pqlyx2hwuvisdslqyowa",
-  "g4w6ddbmqyzdo6ic4oxwjmrurlq44cj43qpdx6peb7a7wvd5pjt6udk3payftnjlb4du4oreojltflzxgojpqy62lu65y",
-  "g4w6ddbmqyzdo6ic4oxwjmrsqpum4aby3ykdr6ppb3apgu3eoq366sszoizfjnzpd54k4wpliz6nujgplz635liwvhd3kvy",
-  "g4w6ddbmqyzdo6ic4oxwjmrsrdsm4az32ipdv7hfb3a7qudhoq366ssyoe3vjprcdf4k4xow3fig3fqwpaeomq2nheprwfi"
+  "g4w6ddbmqyzdo6ic4oxwjnbrr3s4scb73qntd6hpb3e76w35pjt6udctouzf7mjmb4dwoe5u5py6jkukomtz3ixti7fnm",
+  "g4w6ddbmqyzdo6ic4oxwjnjurxt4ubz33mmtr6hia7a7qul5pjt6uccso4yvvpzcb4dqeefuzaie7sjgvl27l2zawrrh2",
+  "g4w6ddbmqyzdo6ic4oxwjnjsrtsmqbb334od76hka3apgu35pjt6udc3oqzfxmjlb4dxtv5cnd4dokbaqlleil4qsinvu",
+  "g4w6ddbmqyzdo6ic4oxwjnjrqpsm4ajy3mndr4pla3dpgudhoq366sstoazfxmbmdb4k5skbe4cl7egzwtxstdxzzv2kexq",
+  "g4w6ddbmqyzdo6ic4oxwjmryr3s4ucjt3eott7heahd74vt5pjt6uds6oq4vvnjmb4dxz7fl3n57afrqnd6jmiarfirbc",
+  "g4w6ddbmqyzdo6ic4oxwjmrzr7tmocbs3umdt4peapd7eul5pjt6ucczou3vjmblb4dsqoqjgycgo6smstua4akpyfc3y",
+  "g4w6ddbmqyzdo6ic4oxwjmrwrts4sbr73endv6xlb7dpgw3foq366ssyom2v3nbjdn4k5axe7ls5yk3rao2ubzr7n6mdu6a",
+  "g4w6ddbmqyzdo6ic4oxwjmrxr7sm2bz52imd77xpahcp2vtgoq366ss2peyv3mbddf4k5qri3uwy6tsjtplix66vzfb7cea",
+  "g4w6ddbmqyzdo6ic4oxwjmrur7u4sbr33modd4pka7epwwthoq366ssyoyzftmzkdb4k4s7d2ans7y7zi33wxtamekox7ti",
+  "g4w6ddbmqyzdo6ic4oxwjmrvqls42az43mkdd6hjalcp4ul5pjt6ud24oiyfvmblb4dsvbacjgdmbnzvpxzq6db5lgmpa",
+  "g4w6ddbmqyzdo6ic4oxwjmrsqprmsaj52mkdt4pkaxc7yud5pjt6ucc7oayflpzkb4d5j242r2wdvgqws4et265e3hmqg",
+  "g4w6ddbmqyzdo6ic4oxwjmrsrpqmoaz73qmt36pia3a7uw35pjt6udk3payftnrnb4dt2ghved2qlualzbllcah3jxf42",
+  "g4w6ddbmqyzdo6ic4oxwjmrtrpsmucjs3mmtb6pea7b7evtfoq366ss3oa4vznjldn4k4oma3nxodom6azd2vvr4inftm3i"
 )
 
-i<-2
+
 for (i in 1:13) {
-  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt0057012/reviews/?ref_=undefined&paginationKey=", links[i])
+  url <- if (i == 1) list1[1] else paste0("https://www.imdb.com/title/tt0057012/reviews/_ajax?ref_=undefined&paginationKey=", list1[i])
   
   session <- bow(url, user_agent = "Educational")
   
@@ -113,9 +113,9 @@ links <- c(
   "g4w6ddbmqyzdo6ic4oxwjnjrrhsmqbzz3mmtz4hmapd7sul5pjt6ubc7o42flprob4dvyh63oumzvrxy7dgg2p4pmcfao"
 )
 
-i<-2
+
 for (i in 1:13) {
-  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt23289160/reviews/?ref_=undefined&paginationKey=", links[i])
+  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt23289160/reviews/_ajax?ref_=undefined&paginationKey=", links[i])
   
   session <- bow(url, user_agent = "Educational")
   
@@ -196,7 +196,7 @@ links <- c(
 
 i<-2
 for (i in 1:13) {
-  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt0110357/reviews/?ref_=undefined&paginationKey=", links[i])
+  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt0110357/reviews/_ajax?ref_=undefined&paginationKey=", links[i])
   
   session <- bow(url, user_agent = "Educational")
   
@@ -275,9 +275,9 @@ links <- c(
   "g4w6ddbmqyzdo6ic4oxwjmbyrdtm2ab43eodz7hfaxc76wtdoq366ss2ouyfjnbddb4k5ux4nlt2xa2tnnu5wilmcygm3fa"
 )
 
-i<-2
+
 for (i in 1:13) {
-  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt0096283/reviews/?ref_=undefined&paginationKey=", links[i])
+  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt0096283/reviews/_ajax?ref_=undefined&paginationKey=", links[i])
   
   session <- bow(url, user_agent = "Educational")
   
@@ -330,6 +330,7 @@ movie4<-data.frame(movie4)
 
 View(movie4)
 ```
+
 ```{r}
 library(rvest)
 library(httr)
@@ -355,9 +356,9 @@ links <- c(
   "g4w6ddbmqyzdo6ic4oxwjnjurptmsbr33aptb4pfa7cpwtttfjrkidc6ou4f5pzyock2535jsoyr4y25n23zk2xwicra"
 )
 
-i<-2
+
 for (i in 1:13) {
-  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt9362722/reviews/?ref_=undefined&paginationKey=", links[i])
+  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt9362722/reviews/_ajax?ref_=undefined&paginationKey=", links[i])
   
   session <- bow(url, user_agent = "Educational")
   
@@ -436,9 +437,9 @@ links <- c(
   "g4w6ddbmqyzdo6ic4oxwjmrtrhq46bz634mdx6poaxbpww3hoq366ss7oy3fvnzmdj4k5ya33y2vkkbf6v6zraecqvti3da"
 )
 
-i<-2
+
 for (i in 1:13) {
-  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt9362722/reviews/?ref_=undefined&paginationKey=", links[i])
+  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt9362722/reviews/_ajax?ref_=undefined&paginationKey=", links[i])
   
   session <- bow(url, user_agent = "Educational")
   
@@ -517,9 +518,9 @@ links <- c(
   "g4w6ddbmqyzdo6ic4oxwjmzzrxt46br42ipdt6heb3c7qwt5pjt6uck2pa4frprmb4dwjhtf723xuuwtypprnewrifuz4"
 )
 
-i<-2
+
 for (i in 1:13) {
-  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt2380307/reviews/?ref_=undefined&paginationKey=", links[i])
+  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt2380307/reviews/_ajax?ref_=undefined&paginationKey=", links[i])
   
   session <- bow(url, user_agent = "Educational")
   
@@ -598,9 +599,9 @@ links <- c(
   "g4w6ddbmqyzdo6ic4oxwjmzsrpqmwaby34md57hpaxdpyul5pjt6udk7oi3v5mzpb4dsay4xtn2slrtehxjfcielwaw2m"
 )
 
-i<-2
+
 for (i in 1:13) {
-  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt0119698/reviews/?ref_=undefined&paginationKey=", links[i])
+  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt0119698/reviews/_ajax?ref_=undefined&paginationKey=", links[i])
   
   session <- bow(url, user_agent = "Educational")
   
@@ -679,9 +680,9 @@ links <- c(
   "g4w6ddbmqyzdo6ic4oxwjmrtr3qmubbs2iotb7hiade7gw35pjt6uc2toe3v5mzjb4dr6fnnpbfldbjmrorkq4ic4sew6"
 )
 
-i<-2
+
 for (i in 1:13) {
-  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt5311514/reviews/?ref_=undefined&paginationKey=", links[i])
+  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt5311514/reviews/_ajax?ref_=undefined&paginationKey=", links[i])
   
   session <- bow(url, user_agent = "Educational")
   
@@ -760,9 +761,9 @@ links <- c(
   "g4w6ddbmqyzdo6ic4oxwjmjvql6nyq343mpdx7pjatboqp4zxsfmd4jqlj72nfebswvhxfx4"
 )
 
-i<-2
+
 for (i in 1:13) {
-  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt0089881/reviews/?ref_=undefined&paginationKey=", links[i])
+  url <- if (i == 1) links[1] else paste0("https://www.imdb.com/title/tt0089881/reviews/_ajax?ref_=undefined&paginationKey=", links[i])
   
   session <- bow(url, user_agent = "Educational")
   
@@ -839,6 +840,7 @@ movtitles <- as.data.frame(movtitles)
 AllMovieReviews<-rbind(result,movie2,movie3,movie4,movie5,movie6,movie7,movie8,movie9,movie10)
 
 All_Movies<-cbind(movtitles,AllMovieReviews)
-write.csv(All_Movies,file = "10Movies.csv")
+write.csv(All_Movies, file = "10Movies.csv", row.names = FALSE)
+
 ```
 
