@@ -26,7 +26,7 @@ head(movie)
 movies<-movie[c(1,301,601,901,1201,1501,1801,2101,2401,2701),]
 movies
 
-movies<-movies [c(-1)]
+
 View(movies)
 
 #clean up the Review_Title column by removing leading, trailing and extra white spaces.
