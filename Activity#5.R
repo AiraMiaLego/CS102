@@ -22,7 +22,7 @@ str(movie)
 # Print the first few rows of the data frame
 head(movie)
 
-movies<-movie [c(-1)]
+movies<-movie
 View(movies)
 
 #movietitles to lower case 
