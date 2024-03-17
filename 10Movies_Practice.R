@@ -31,11 +31,8 @@ View(movies)
 
 #clean up the Review_Title column by removing leading, trailing and extra white spaces.
 movies$Review_Title <- trimws(movies$Review_Title)
-
-#substring(x, first, last) extracts substrings from x starting from first character to last character.
-#Specify 2 as the starting position and nchar(movies$Title_review) - 0 as the ending position to exclude the first and last characters, which are the double quotes.
+movies$Review_Title[1]<- substring(movies$Review_Title[1], 1, nchar(movies$Review_Title[1]) -1)
 movies$Review_Title[1]<- substring(movies$Review_Title[1], 2, nchar(movies$Review_Title[1]) -0)
-movies$Review_Title[1]<- substring(movies$Review_Title[1], 0, nchar(movies$Review_Title[1]) -1)
 
 movies$Review_Title
 
@@ -47,28 +44,11 @@ movies$Rate <- trimws(movies$Rate)
 movies$Rate
 
 movies$Review_Title <- gsub("\\s+", " ", movies$Review_Title)
+movies$Review_Title<-gsub("\\[\\d+\\] |\"", "", movies$Review_Title)
 movies$Review_Title
 
-#I want the first line of movies$Review_Title which is "\"Gentlemen, you can't fight in here! This is the War Room.\"" 
-#To be like this "Gentlemen, you can't fight in here! This is the War Room."
 
-#substring(x, first, last) extracts substrings from x starting from first character to last character.
-#Specify 2 as the starting position and nchar(movies$Title_review) - 1 as the ending position to exclude the first and last characters, which are the double quotes.
-
-
-moviesQ<- character(nrow(movies))
-
-for (i in 1:nrow(movies)){
-  movies10Q[i]<- paste0("INSERT INTO movie10(movie_title, reviewer, date_of_review, rating,  title_of_the_review,  review) VALUES('",
-                        movies$movtitles[i], "', '",
-                        movies$Username[i], "', '",
-                        movies$Date[i], "', '",
-                        movies$Rate[i], "', '",
-                        movies$Review_Title[i], "', '",
-                        movies$Review_Content[i], "')")
-}
-dbWriteTable(connection,name="movies10",value=movies,row.names=FALSE,append=TRUE)
-
+dbWriteTable(connection,name="movie10",value=movies,row.names=FALSE,append=TRUE)
 #listing the tables of the movie10_reviews 
 dbListTables(connection)
 
@@ -78,8 +58,8 @@ dbListFields(connection,"movies")
 glimpse(movies)
 #disconnect from dbase
 
-write.csv(movies, file = "movies_mysql.csv")
-save.csv
+write.csv(movies, file = "10movies_mysql.csv")
+
 
 
 
